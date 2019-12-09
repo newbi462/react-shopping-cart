@@ -8,6 +8,7 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
 import { ProductContext } from "./contexts/ProductContext";
+import { CartContext } from "./contexts/CartContext";
 
 function App() {
 	const [products] = useState(data);
@@ -21,7 +22,10 @@ function App() {
 	return (
 		<div className="App">
 		 	<ProductContext.Provider value={{ products, addItem }}>{/*why are these in contexts?*/}
-				<Navigation cart={cart} />
+				<CartContext.Provider value={cart}>
+					{/*<Navigation cart={cart} />*/}
+					<Navigation />
+				</CartContext.Provider>
 			</ProductContext.Provider>
 
 			{/* Routes */}
@@ -41,10 +45,14 @@ function App() {
 			</ProductContext.Provider>
 
 			<ProductContext.Provider value={{ products, addItem }}>{/*why are these in contexts?*/}
-				<Route
-					path="/cart"
-					render={() => <ShoppingCart cart={cart} />}
-				/>
+				<CartContext.Provider value={cart}>
+					<Route
+						path="/cart"
+						component={ShoppingCart}
+					/>
+						{/*render={() => <ShoppingCart cart={cart} />}
+					/>*/}
+				</CartContext.Provider>
 			</ProductContext.Provider>
 		</div>
 	);
