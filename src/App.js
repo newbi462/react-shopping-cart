@@ -19,6 +19,15 @@ function App() {
 		setCart([...cart, item])
 	};
 
+	const removeItem = cartArr => {
+		console.log(cart[cartArr]);
+		cart.splice(cartArr, 1, {id: "remove"});
+		console.log(cart[cartArr]);
+		const keep = cart.filter(index => index.id != "remove");
+		console.log(keep);
+		setCart(keep);
+	};
+
 	return (
 		<div className="App">
 		 	<ProductContext.Provider value={{ products, addItem }}>{/*why are these in contexts?*/}
@@ -45,7 +54,7 @@ function App() {
 			</ProductContext.Provider>
 
 			<ProductContext.Provider value={{ products, addItem }}>{/*why are these in contexts?*/}
-				<CartContext.Provider value={cart}>
+				<CartContext.Provider value={{ cart, removeItem }}>
 					<Route
 						path="/cart"
 						component={ShoppingCart}
